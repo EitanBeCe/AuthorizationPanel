@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useReducer, useState, useRef } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+  useRef,
+} from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
@@ -27,10 +33,6 @@ const passwordReducer = (state, action) => {
 };
 
 const Login = () => {
-  // const [enteredEmail, setEnteredEmail] = useState("");
-  // const [emailIsValid, setEmailIsValid] = useState();
-  // const [enteredPassword, setEnteredPassword] = useState("");
-  // const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
 
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
@@ -41,14 +43,13 @@ const Login = () => {
     value: "",
     isValid: null,
   });
+  const { isValid: emailIsValid } = emailState;
+  const { isValid: passwordlIsValid } = passwordState;
 
   const authCtx = useContext(AuthContext);
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
-
-  const { isValid: emailIsValid } = emailState;
-  const { isValid: passwordlIsValid } = passwordState;
 
   useEffect(() => {
     const identifier = setTimeout(() => {
@@ -61,28 +62,20 @@ const Login = () => {
   }, [emailIsValid, passwordlIsValid]);
 
   const emailChangeHandler = (event) => {
-    // setEnteredEmail(event.target.value);
     dispatchEmail({ type: "USER_INPUT", val: event.target.value });
-
-    // setFormIsValid(
-    //   event.target.value.includes("@") && passwordState.isValid
-    // );
   };
 
   const passwordChangeHandler = (event) => {
-    // setEnteredPassword(event.target.value);
     dispatchPassword({ type: "USER_INPUT", val: event.target.value });
 
     setFormIsValid(event.target.value.trim().length > 6 && emailState.isValid);
   };
 
   const validateEmailHandler = () => {
-    // setEmailIsValid(emailState.isValid);
     dispatchEmail({ type: "INPUT_BLUR" });
   };
 
   const validatePasswordHandler = () => {
-    // setPasswordIsValid(enteredPassword.trim().length > 6);
     dispatchPassword({ type: "INPUT_BLUR" });
   };
 
